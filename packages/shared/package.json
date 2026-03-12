@@ -3,14 +3,6 @@
   "version": "0.0.0",
   "private": true,
   "license": "MIT",
-  "exports": {
-    "./constants": "./src/constants/index.ts",
-    "./constants/*": "./src/constants/*.ts",
-    "./utils": "./src/utils/index.ts",
-    "./utils/*": "./src/utils/*.ts",
-    "./types": "./src/types/index.ts",
-    "./types/*": "./src/types/*.ts"
-  },
   "publishConfig": {
     "access": "public"
   },
@@ -30,5 +22,13 @@
     "@repo/oxlint": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@types/bun": "^1.3.10"
+  },
+  "exports": {
+    "./constants": "./src/constants/index.ts",
+    "./constants/*": "./src/constants/*.ts",
+    "./utils": "./src/utils/index.ts",
+    "./utils/*": "./src/utils/*.ts",
+    "./types": "./src/types/index.ts",
+    "./types/*": "./src/types/*.ts"
   }
 }
