@@ -154,4 +154,4 @@ export const INTL_CURRENCIES = [
   "ZAR",
   "ZMW",
   "ZWL",
-] as const;
+] as const

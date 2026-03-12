@@ -5,7 +5,16 @@
   "scripts": {
     "dev": "bun run --watch src/index.ts",
     "db:generate": "bun --bun run drizzle-kit generate",
-    "db:migrate": "bun --bun run drizzle-kit migrate"
+    "db:migrate": "bun --bun run drizzle-kit migrate",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check",
+    "check-types": "tsc --noEmit"
+  },
+  "dependencies": {
+    "dotenv": "^17.3.1",
+    "drizzle-orm": "^1.0.0-beta.16-ea816b6"
   },
   "devDependencies": {
     "@repo/oxlint": "workspace:*",
@@ -13,9 +22,5 @@
     "@repo/typescript-config": "workspace:*",
     "@types/bun": "latest",
     "drizzle-kit": "^1.0.0-beta.16-ea816b6"
-  },
-  "dependencies": {
-    "dotenv": "^17.3.1",
-    "drizzle-orm": "^1.0.0-beta.16-ea816b6"
   }
 }

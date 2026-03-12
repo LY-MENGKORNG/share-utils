@@ -1,3 +1,4 @@
+// oxlint-disable node/no-process-env
 import { type ZodError, type ZodObject, type ZodRawShape } from "zod"
 import { safeTry } from "@repo/shared/utils/safe-try"
 

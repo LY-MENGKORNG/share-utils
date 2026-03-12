@@ -29,7 +29,6 @@
   "devDependencies": {
     "@repo/oxlint": "workspace:*",
     "@repo/shared": "workspace:*",
-    "@repo/typescript-config": "workspace:*",
     "@types/bun": "^1.3.10"
   }
 }
