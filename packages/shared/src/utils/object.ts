@@ -1,2 +1,3 @@
-export const isObject = (value: unknown): value is object =>
-  value !== null && typeof value === "object";
+export function isObject(value: unknown): value is object {
+  return value !== null && typeof value === "object"
+}

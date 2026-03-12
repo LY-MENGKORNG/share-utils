@@ -1,15 +1,15 @@
-import type { ForceRetryOptions } from "#/types/retry";
-import { NonError } from "./non-error";
+import type { ForceRetryOptions } from "#/types/retry"
+import { NonError } from "./non-error"
 
 /**
 Internal error used to signal a forced retry from afterResponse hooks.
-This is thrown when a user returns ky.retry() from an afterResponse hook.
+This is thrown when a user returns http.retry() from an afterResponse hook.
 */
 export class ForceRetryError extends Error {
-  override name = "ForceRetryError" as const;
-  customDelay: number | undefined;
-  code: string | undefined;
-  customRequest: Request | undefined;
+  override name = "ForceRetryError" as const
+  customDelay: number | undefined
+  code: string | undefined
+  customRequest: Request | undefined
 
   constructor(options?: ForceRetryOptions) {
     // Runtime protection: wrap non-Error causes in NonError
@@ -18,15 +18,15 @@ export class ForceRetryError extends Error {
       ? options.cause instanceof Error
         ? options.cause
         : new NonError(options.cause)
-      : undefined;
+      : undefined
 
     super(
       options?.code ? `Forced retry: ${options.code}` : "Forced retry",
       cause ? { cause } : undefined,
-    );
+    )
 
-    this.customDelay = options?.delay;
-    this.code = options?.code;
-    this.customRequest = options?.request;
+    this.customDelay = options?.delay
+    this.code = options?.code
+    this.customRequest = options?.request
   }
 }

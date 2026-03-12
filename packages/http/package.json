@@ -2,24 +2,7 @@
   "name": "@repo/http",
   "version": "0.0.0",
   "private": true,
-  "type": "module",
-  "scripts": {
-    "build": "bun build ./src/index.ts --outdir dist",
-    "lint": "exlint",
-    "lint:fix": "exlint --fix",
-    "check-types": "tsc --noEmit",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "test": "bun test",
-    "test:watch": "bun test --watch",
-    "test:coverage": "bun test --coverage",
-    "test:coverage:watch": "bun test --coverage --watch"
-  },
-  "devDependencies": {
-    "@repo/oxlint": "workspace:*",
-    "@repo/typescript-config": "workspace:*",
-    "@repo/shared": "workspace:*",
-    "@types/bun": "^1.3.10"
-  },
+  "license": "MIT",
   "exports": {
     "./types": "./src/types/index.ts",
     "./types/*": "./src/types/*.ts",
@@ -27,5 +10,26 @@
     "./utils/*": "./src/types/*.ts",
     "./error": "./src/error/index.ts",
     "./error/*": "./src/error/*.ts"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "bun build ./src/index.ts --outdir dist",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check",
+    "check-types": "tsc --noEmit",
+    "test": "bun test",
+    "test:watch": "bun test --watch",
+    "test:coverage": "bun test --coverage",
+    "test:coverage:watch": "bun test --coverage --watch"
+  },
+  "devDependencies": {
+    "@repo/oxlint": "workspace:*",
+    "@repo/shared": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@types/bun": "^1.3.10"
   }
 }

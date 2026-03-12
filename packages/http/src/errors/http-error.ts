@@ -1,28 +1,23 @@
-import type { HttpRequest, HttpResponse } from "#/types";
-import type { NormalizedOptions } from "#/types/option";
+import type { HttpRequest, HttpResponse } from "#/types"
+import type { NormalizedOptions } from "#/types/option"
 
 export class HTTPError<T = unknown> extends Error {
-  public response: HttpResponse<T>;
-  public request: HttpRequest;
-  public options: NormalizedOptions;
-  public data: T | string | undefined;
+  public response: HttpResponse<T>
+  public request: HttpRequest
+  public options: NormalizedOptions
+  public data: T | string | undefined
 
-  constructor(
-    response: Response,
-    request: Request,
-    options: NormalizedOptions,
-  ) {
-    const code =
-      response.status || response.status === 0 ? response.status : "";
-    const title = response.statusText ?? "";
-    const status = `${code} ${title}`.trim();
-    const reason = status ? `status code ${status}` : "an unknown error";
+  constructor(response: Response, request: Request, options: NormalizedOptions) {
+    const code = response.status || response.status === 0 ? response.status : ""
+    const title = response.statusText ?? ""
+    const status = `${code} ${title}`.trim()
+    const reason = status ? `status code ${status}` : "an unknown error"
 
-    super(`Request failed with ${reason}: ${request.method} ${request.url}`);
+    super(`Request failed with ${reason}: ${request.method} ${request.url}`)
 
-    this.name = "HTTPError";
-    this.response = response;
-    this.request = request;
-    this.options = options;
+    this.name = "HTTPError"
+    this.response = response
+    this.request = request
+    this.options = options
   }
 }

@@ -1,27 +1,18 @@
-import { requestMethods } from "#/constants/request";
-import type { HttpMethod, RequestHttpMethod } from "#/types/option";
-import type { RetryOptions } from "#/types/retry";
+import { requestMethods } from "#/constants/request"
+import type { HttpMethod, RequestHttpMethod } from "#/types/option"
+import type { RetryOptions } from "#/types/retry"
 
 export const normalizeRequestMethod = (input: string): string =>
-  requestMethods.includes(input as RequestHttpMethod)
-    ? input.toUpperCase()
-    : input;
+  requestMethods.includes(input as RequestHttpMethod) ? input.toUpperCase() : input
 
-const retryMethods: HttpMethod[] = [
-  "get",
-  "put",
-  "head",
-  "delete",
-  "options",
-  "trace",
-];
+const retryMethods: HttpMethod[] = ["get", "put", "head", "delete", "options", "trace"]
 
-const retryStatusCodes = [408, 413, 429, 500, 502, 503, 504];
+const retryStatusCodes = [408, 413, 429, 500, 502, 503, 504]
 
-const retryAfterStatusCodes = [413, 429, 503];
+const retryAfterStatusCodes = [413, 429, 503]
 
 type InternalRetryOptions = Required<Omit<RetryOptions, "shouldRetry">> &
-  Pick<RetryOptions, "shouldRetry">;
+  Pick<RetryOptions, "shouldRetry">
 
 const defaultRetryOptions: InternalRetryOptions = {
   limit: 2,
@@ -33,34 +24,32 @@ const defaultRetryOptions: InternalRetryOptions = {
   delay: (attemptCount) => 0.3 * 2 ** (attemptCount - 1) * 1000,
   jitter: undefined!,
   retryOnTimeout: false,
-};
+}
 
-export const normalizeRetryOptions = (
-  retry: number | RetryOptions = {},
-): InternalRetryOptions => {
+export const normalizeRetryOptions = (retry: number | RetryOptions = {}): InternalRetryOptions => {
   if (typeof retry === "number") {
     return {
       ...defaultRetryOptions,
       limit: retry,
-    };
+    }
   }
 
   if (retry.methods && !Array.isArray(retry.methods)) {
-    throw new Error("retry.methods must be an array");
+    throw new Error("retry.methods must be an array")
   }
 
-  retry.methods &&= retry.methods.map((method) => method.toLowerCase());
+  retry.methods &&= retry.methods.map((method) => method.toLowerCase())
 
   if (retry.statusCodes && !Array.isArray(retry.statusCodes)) {
-    throw new Error("retry.statusCodes must be an array");
+    throw new Error("retry.statusCodes must be an array")
   }
 
   const normalizedRetry = Object.fromEntries(
     Object.entries(retry).filter(([, value]) => value !== undefined),
-  ) as RetryOptions;
+  ) as RetryOptions
 
   return {
     ...defaultRetryOptions,
     ...normalizedRetry,
-  };
-};
+  }
+}

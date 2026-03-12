@@ -1,0 +1,5 @@
+{
+  "extends": ["../oxlint/.oxlintrc.base.json"],
+  "plugins": ["typescript"],
+  "overrides": []
+}

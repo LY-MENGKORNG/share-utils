@@ -1,9 +1,9 @@
-import { TimeoutError } from "#/errors/timeout-error";
+import { TimeoutError } from "#/errors/timeout-error"
 
 export type TimeoutOptions = {
-  timeout: number;
-  fetch: typeof fetch;
-};
+  timeout: number
+  fetch: typeof fetch
+}
 
 // `Promise.race()` workaround (#91)
 export default async function timeout(
@@ -15,18 +15,18 @@ export default async function timeout(
   return new Promise((resolve, reject) => {
     const timeoutId = setTimeout(() => {
       if (abortController) {
-        abortController.abort();
+        abortController.abort()
       }
 
-      reject(new TimeoutError(request));
-    }, options.timeout);
+      reject(new TimeoutError(request))
+    }, options.timeout)
 
     void options
       .fetch(request, init)
       .then(resolve)
       .catch(reject)
       .then(() => {
-        clearTimeout(timeoutId);
-      });
-  });
+        clearTimeout(timeoutId)
+      })
+  })
 }

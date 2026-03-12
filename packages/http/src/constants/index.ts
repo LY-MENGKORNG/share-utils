@@ -1,20 +1,16 @@
-import type { HttpOptionsRegistry } from "#/types/option";
+import type { HttpOptionsRegistry } from "#/types/option"
 
-export const supportsAbortController =
-  typeof globalThis.AbortController === "function";
+export const supportsAbortController = typeof globalThis.AbortController === "function"
 export const supportsAbortSignal =
-  typeof globalThis.AbortSignal === "function" &&
-  typeof globalThis.AbortSignal.any === "function";
-export const supportsResponseStreams =
-  typeof globalThis.ReadableStream === "function";
-export const supportsFormData = typeof globalThis.FormData === "function";
+  typeof globalThis.AbortSignal === "function" && typeof globalThis.AbortSignal.any === "function"
+export const supportsResponseStreams = typeof globalThis.ReadableStream === "function"
+export const supportsFormData = typeof globalThis.FormData === "function"
 
 export const supportsRequestStreams = (() => {
-  let duplexAccessed = false;
-  let hasContentType = false;
-  const supportsReadableStream =
-    typeof globalThis.ReadableStream === "function";
-  const supportsRequest = typeof globalThis.Request === "function";
+  let duplexAccessed = false
+  let hasContentType = false
+  const supportsReadableStream = typeof globalThis.ReadableStream === "function"
+  const supportsRequest = typeof globalThis.Request === "function"
 
   if (supportsReadableStream && supportsRequest) {
     try {
@@ -23,30 +19,27 @@ export const supportsRequestStreams = (() => {
         method: "POST",
         // @ts-expect-error - Types are outdated.
         get duplex() {
-          duplexAccessed = true;
-          return "half";
+          duplexAccessed = true
+          return "half"
         },
-      }).headers.has("Content-Type");
+      }).headers.has("Content-Type")
     } catch (error) {
-      if (
-        error instanceof Error &&
-        error.message === "unsupported BodyInit type"
-      ) {
-        return false;
+      if (error instanceof Error && error.message === "unsupported BodyInit type") {
+        return false
       }
 
-      throw error;
+      throw error
     }
   }
 
-  return duplexAccessed && !hasContentType;
-})();
+  return duplexAccessed && !hasContentType
+})()
 
-export const maxSafeTimeout = 2_147_483_647 as const;
+export const maxSafeTimeout = 2_147_483_647 as const
 
 export const usualFormBoundarySize = new TextEncoder().encode(
   "------WebKitFormBoundaryaxpyiPgbbPti10Rw",
-).length;
+).length
 
 export const httpOptionKey: HttpOptionsRegistry = {
   json: true,
@@ -62,10 +55,10 @@ export const httpOptionKey: HttpOptionsRegistry = {
   onUploadProgress: true,
   fetch: true,
   context: true,
-} as const;
+} as const
 
 export const vendorSpecificOptions = {
   next: true,
-} as const;
+} as const
 
-export const stop = Symbol("stop");
+export const stop = Symbol("stop")
