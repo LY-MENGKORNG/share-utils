@@ -1,32 +1,32 @@
-import { TimeoutError } from "#/errors/timeout-error"
+import { TimeoutError } from "#/errors/timeout-error";
 
 export type TimeoutOptions = {
-  timeout: number
-  fetch: typeof fetch
-}
+	timeout: number;
+	fetch: typeof fetch;
+};
 
 // `Promise.race()` workaround (#91)
 export default async function timeout(
-  request: Request,
-  init: RequestInit,
-  abortController: AbortController | undefined,
-  options: TimeoutOptions,
+	request: Request,
+	init: RequestInit,
+	abortController: AbortController | undefined,
+	options: TimeoutOptions
 ): Promise<Response> {
-  return new Promise((resolve, reject) => {
-    const timeoutId = setTimeout(() => {
-      if (abortController) {
-        abortController.abort()
-      }
+	return new Promise((resolve, reject) => {
+		const timeoutId = setTimeout(() => {
+			if (abortController) {
+				abortController.abort();
+			}
 
-      reject(new TimeoutError(request))
-    }, options.timeout)
+			reject(new TimeoutError(request));
+		}, options.timeout);
 
-    void options
-      .fetch(request, init)
-      .then(resolve)
-      .catch(reject)
-      .then(() => {
-        clearTimeout(timeoutId)
-      })
-  })
+		void options
+			.fetch(request, init)
+			.then(resolve)
+			.catch(reject)
+			.then(() => {
+				clearTimeout(timeoutId);
+			});
+	});
 }

@@ -1,12 +1,13 @@
 {
-  "extends": "../../tsconfig.base.json",
-  "compilerOptions": {
-    "outDir": "./dist",
-    "paths": {
-      "#/*": ["./src/*"]
-    },
-    "types": ["bun", "@types/bun"]
-  },
-  "include": ["src"],
-  "exclude": ["node_modules", "dist"]
+	"extends": "@internal/tsconfig/base",
+	"compilerOptions": {
+		"rootDir": "src",
+		"outDir": "dist",
+		"paths": {
+			"#/*": ["./src/*"]
+		},
+		"types": ["bun", "@types/bun"]
+	},
+	"include": ["src"],
+	"exclude": ["node_modules", "dist"]
 }

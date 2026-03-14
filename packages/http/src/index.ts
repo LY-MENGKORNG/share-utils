@@ -1,8 +1,8 @@
 // The entry point for the http package
-import { createHttpInstance } from "./core"
+import { createHttpInstance } from "./core";
 
-const http = createHttpInstance()
+const http = createHttpInstance();
 
-export type * from "#/types"
-export { createHttpInstance }
-export default http
+export type * from "#/types";
+export { createHttpInstance };
+export default http;

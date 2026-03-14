@@ -1,31 +1,30 @@
 {
-  "name": "ts-reusable-utils",
-  "private": true,
-  "scripts": {
-    "build": "bun run --parallel --filter '*' build",
-    "dev": "bun run --parallel --env-file=.env.local --filter '*' dev",
-    "lint": "bun run --parallel --filter '*' lint",
-    "lint:fix": "bun run --parallel --filter '*' lint:fix",
-    "fmt": "bun run --parallel --filter '*' fmt",
-    "fmt:check": "bun run --parallel --filter '*' fmt:check",
-    "check-types": "bun run --parallel --filter '*' check-types",
-    "test": "bun run --parallel --filter '*' test",
-    "test:watch": "bun run --parallel --filter '*' test:watch",
-    "test:coverage": "bun run --parallel --filter '*' test:coverage",
-    "test:coverage:watch": "bun run --parallel --filter '*' test:coverage:watch"
-  },
-  "devDependencies": {
-    "@types/bun": "^1.3.10",
-    "oxfmt": "^0.39.0",
-    "oxlint": "^1.53.0",
-    "typescript": "5.9.2"
-  },
-  "engines": {
-    "bun": ">=1.3"
-  },
-  "packageManager": "bun@1.3.10",
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ]
+	"name": "ts-reusable-utils",
+	"private": true,
+	"scripts": {
+		"build": "turbo run --parallel build",
+		"lint": "biome check .",
+		"lint:fix": "biome check --write .",
+		"fmt": "biome format --write .",
+		"typecheck": "turbo run typecheck",
+		"test": "turbo run test",
+		"test:watch": "turbo run --parallel test:watch",
+		"test:coverage": "turbo run --parallel test:coverage",
+		"test:coverage:watch": "turbo run --parallel test:coverage:watch",
+		"clean": "turbo run clean"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.4.6",
+		"@types/bun": "^1.3.10",
+		"turbo": "^2.8.16",
+		"typescript": "5.9.2"
+	},
+	"packageManager": "bun@1.3.10",
+	"engines": {
+		"bun": ">=1.3"
+	},
+	"workspaces": [
+		"packages/*",
+		"internal/*"
+	]
 }
