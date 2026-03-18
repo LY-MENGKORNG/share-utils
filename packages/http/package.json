@@ -21,7 +21,7 @@
 		"test:coverage": "bun test --coverage",
 		"test:coverage:watch": "bun test --coverage --watch",
 		"typecheck": "tsc --noEmit",
-		"clean": "rm -rf dist .turbo"
+		"clean": "rm -rf dist .turbo tsconfig.tsbuildinfo"
 	},
 	"devDependencies": {
 		"@repo/shared": "workspace:*",

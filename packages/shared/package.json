@@ -21,7 +21,7 @@
 		"test:watch": "bun test --watch",
 		"test:coverage": "bun test --coverage",
 		"test:coverage:watch": "bun test --coverage --watch",
-		"clean": "rm -rf dist .turbo"
+		"clean": "rm -rf dist .turbo tsconfig.tsbuildinfo"
 	},
 	"devDependencies": {
 		"@types/bun": "^1.3.10",

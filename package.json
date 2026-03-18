@@ -11,7 +11,7 @@
 		"test:watch": "turbo run --parallel test:watch",
 		"test:coverage": "turbo run --parallel test:coverage",
 		"test:coverage:watch": "turbo run --parallel test:coverage:watch",
-		"clean": "turbo run --parallel clean"
+		"clean": "turbo run --parallel clean && rm -rf .turbo"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.4.6",
