@@ -1,4 +1,4 @@
-import type { CurrencyFormatOptions, IntlCurrency } from "#/types/currency";
+import type { CurrencyFormatOptions, IntlCurrency } from "#/types/currency"
 
 export function formatCurrency(
 	amount: number,
@@ -11,5 +11,5 @@ export function formatCurrency(
 		minimumFractionDigits: 2,
 		maximumFractionDigits: 2,
 		...options,
-	}).format(amount);
+	}).format(amount)
 }

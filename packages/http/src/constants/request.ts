@@ -1,4 +1,4 @@
-export const requestMethods = ["get", "post", "put", "patch", "head", "delete"] as const;
+export const requestMethods = ["get", "post", "put", "patch", "head", "delete"] as const
 
 export const requestOptionsRegistry = {
 	method: true,
@@ -15,4 +15,4 @@ export const requestOptionsRegistry = {
 	signal: true,
 	window: true,
 	duplex: true,
-} as const;
+} as const

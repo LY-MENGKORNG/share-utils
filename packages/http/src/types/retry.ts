@@ -1,39 +1,39 @@
-import type { HTTPError } from "#/errors/http-error";
-import type { HttpMethod } from "./option";
+import type { HTTPError } from "#/errors/http-error"
+import type { HttpMethod } from "./option"
 
 export type ShouldRetryState = {
 	/**
 	The error that caused the request to fail.
 	*/
-	error: Error;
+	error: Error
 
 	/**
 	The number of retries attempted. Starts at 1 for the first retry.
 	*/
-	retryCount: number;
-};
+	retryCount: number
+}
 
 export type RetryOptions = {
-	limit?: number;
+	limit?: number
 
-	methods?: HttpMethod[];
+	methods?: Readonly<HttpMethod[]>
 
-	statusCodes?: number[];
+	statusCodes?: Readonly<number[]>
 
-	afterStatusCodes?: number[];
+	afterStatusCodes?: Readonly<number[]>
 
-	maxRetryAfter?: number;
+	maxRetryAfter?: number
 
-	backoffLimit?: number;
+	backoffLimit?: number
 
-	delay?: (attemptCount: number) => number;
+	delay?: (attemptCount: number) => number
 
-	jitter?: boolean | ((delay: number) => number) | undefined;
+	jitter?: boolean | ((delay: number) => number) | undefined
 
-	retryOnTimeout?: boolean;
+	retryOnTimeout?: boolean
 
-	shouldRetry?: (state: ShouldRetryState) => boolean | undefined | Promise<boolean | undefined>;
-};
+	shouldRetry?: (state: ShouldRetryState) => boolean | undefined | Promise<boolean | undefined>
+}
 
 export type ForceRetryOptions = {
 	/**
@@ -43,7 +43,7 @@ export type ForceRetryOptions = {
 
 	**Note:** Custom delays bypass jitter and `backoffLimit`. This is intentional, as custom delays often come from server responses (e.g., `Retry-After` headers) and should be respected exactly as specified.
 	*/
-	delay?: number;
+	delay?: number
 
 	/**
 	Error code for the retry.
@@ -56,7 +56,7 @@ export type ForceRetryOptions = {
 	// Resulting error message: 'Forced retry: RATE_LIMIT'
 	```
 	*/
-	code?: string;
+	code?: string
 
 	/**
 	Original error that caused the retry.
@@ -76,7 +76,7 @@ export type ForceRetryOptions = {
 	}
 	```
 	*/
-	cause?: Error;
+	cause?: Error
 
 	/**
 	Custom request to use for the retry.
@@ -109,18 +109,18 @@ export type ForceRetryOptions = {
 	});
 	```
 	*/
-	request?: Request;
-};
+	request?: Request
+}
 
 export type BeforeErrorState = {
-	error: HTTPError;
+	error: HTTPError
 
 	/**
 	The number of retries attempted. `0` for the initial request, increments with each retry.
 
 	This allows you to distinguish between the initial request and retries, which is useful when you need different error handling based on retry attempts (e.g., showing different error messages on the final attempt).
 	*/
-	retryCount: number;
-};
+	retryCount: number
+}
 
-export type BeforeErrorHook = (state: BeforeErrorState) => HTTPError | Promise<HTTPError>;
+export type BeforeErrorHook = (state: BeforeErrorState) => HTTPError | Promise<HTTPError>
