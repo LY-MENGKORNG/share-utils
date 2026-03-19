@@ -1,2 +1,5 @@
 [install]
 linkWorkspacePackages = true
+
+[test]
+coverageDir = "coverage"

@@ -2,10 +2,6 @@ import type { DebouncedFunction, DebouncedPromise, Options } from "#/types/debou
 
 /**
  * Reusable debounce function that delays the execution of a given function until after a specified wait time has elapsed since the last invocation.
- * @param fn
- * @param waitMs
- * @param options
- * @returns
  */
 // biome-ignore lint/suspicious/noExplicitAny: <reason for using any>
 export function debounce<Args extends any[], F extends (...args: Args) => ReturnType<F>>(
@@ -13,32 +9,30 @@ export function debounce<Args extends any[], F extends (...args: Args) => Return
 	waitMs: number = 50,
 	options: Options<ReturnType<F>> = {}
 ): DebouncedFunction<Args, F> {
-	const isImmediate = options.isImmediate ?? false
-	const callback = options.callback ?? false
-	const maxWait = options.maxWait
+	const { isImmediate = false, callback = () => {}, maxWait } = options
 
 	let lastInvoke = Date.now()
 	let timerId: ReturnType<typeof setTimeout> | undefined
 	let promises: DebouncedPromise<ReturnType<F>>[] = []
 
-	function nextInvokeTimeout() {
+  const nextInvokeTimeout = (): number => {
 		if (maxWait !== undefined) {
-			const sinceLastInvoke = Date.now() - lastInvoke
+      const sinceLastInvoke = Date.now() - lastInvoke
 
-			if (sinceLastInvoke + waitMs >= maxWait) {
-				return maxWait - sinceLastInvoke
+      // Note: sinceLastInvoke <= maxWait ensures we don't exceed maxWait
+      if (sinceLastInvoke + waitMs >= maxWait && sinceLastInvoke <= maxWait) {
+        return maxWait - sinceLastInvoke
 			}
-		}
+    }
 		return waitMs
 	}
 
-	function resetTimeout() {
-		if (timerId !== undefined) clearTimeout(timerId)
-	}
-
-	const debouncedFunction = function (this: ThisParameterType<F>, ...args: Parameters<F>) {
+	const debouncedFunction: DebouncedFunction<Args, F> = function (
+		this: ThisParameterType<F>,
+		...args: Parameters<F>
+	) {
 		return new Promise<ReturnType<F>>((resolve, reject) => {
-			resetTimeout()
+      if (timerId !== undefined) clearTimeout(timerId)
 
 			const shouldCallNow = isImmediate && timerId === undefined
 
@@ -48,27 +42,25 @@ export function debounce<Args extends any[], F extends (...args: Args) => Return
 
 				if (!isImmediate) {
 					const result = fn.apply(this, args)
+          callback(result)
 
-					if (callback) callback(result)
-					for (const { resolve } of promises) resolve(result)
+          for (let i = 0; i < promises.length; i++) promises[i].resolve(result)
 					promises = []
 				}
-			}, nextInvokeTimeout())
+      }, nextInvokeTimeout())
 
-			if (shouldCallNow) {
-				const result = fn.apply(this, args)
+      if (!shouldCallNow) return void promises.push({ resolve, reject })
 
-				if (callback) callback(result)
-				return resolve(result)
-			}
-			promises.push({ resolve, reject })
+			const result = fn.apply(this, args)
+			callback(result)
+			return resolve(result)
 		})
 	}
 
 	debouncedFunction.cancel = <Reason = string>(reason: Reason) => {
-		resetTimeout()
+		if (timerId !== undefined) clearTimeout(timerId)
 
-		for (const { reject } of promises) reject(reason)
+		for (let i = 0; i < promises.length; i++) promises[i].reject(reason)
 		promises = []
 	}
 

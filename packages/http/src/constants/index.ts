@@ -1,23 +1,25 @@
 import { safeTry } from "@repo/shared/utils/safe-try"
 import type { HttpOptionsRegistry } from "#/types/option"
 
-export const supportsAbortController = typeof globalThis.AbortController === "function"
+const { AbortSignal, AbortController, ReadableStream, Request } = globalThis
+
+export const supportsAbortController = typeof AbortController === "function"
 export const supportsAbortSignal =
-	typeof globalThis.AbortSignal === "function" && typeof globalThis.AbortSignal.any === "function"
-export const supportsResponseStreams = typeof globalThis.ReadableStream === "function"
-export const supportsFormData = typeof globalThis.FormData === "function"
+	typeof AbortSignal === "function" && typeof AbortSignal.any === "function"
+export const supportsResponseStreams = typeof ReadableStream === "function"
+export const supportsFormData = typeof FormData === "function"
 
 export const supportsRequestStreams = (() => {
 	let duplexAccessed = false
 	let hasContentType = false
-	const supportsReadableStream = typeof globalThis.ReadableStream === "function"
-	const supportsRequest = typeof globalThis.Request === "function"
+	const supportsReadableStream = typeof ReadableStream === "function"
+	const supportsRequest = typeof Request === "function"
 
 	if (supportsReadableStream && supportsRequest) {
 		const result = safeTry(() => {
 			// @ts-expect-error
-			hasContentType = new globalThis.Request("https://empty.invalid", {
-				body: new globalThis.ReadableStream(),
+			hasContentType = new Request("https://empty.invalid", {
+				body: new ReadableStream(),
 				method: "POST",
 				get duplex() {
 					duplexAccessed = true
