@@ -1,4 +1,4 @@
-name: Bun Monorepo CI
+name: Share Utils CI
 
 on:
   push:
