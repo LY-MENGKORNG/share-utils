@@ -1,5 +1,7 @@
+import { safeTry } from "@repo/shared/utils/safe-try"
 import type { BodyInit } from "bun"
 import { usualFormBoundarySize } from "#/constants"
+import { HTTP_STATUS } from "#/constants/http-status"
 import type { Options } from "#/types/option"
 
 export const getBodySize = (body?: BodyInit | null): number => {
@@ -40,12 +42,11 @@ export const getBodySize = (body?: BodyInit | null): number => {
 	}
 
 	if (typeof body === "object" && body !== null) {
-		try {
+		const result = safeTry(() => {
 			const jsonString = JSON.stringify(body)
 			return new TextEncoder().encode(jsonString).length
-		} catch {
-			return 0
-		}
+		})
+		if (result.success) return result.value
 	}
 
 	return 0 // Default case, unable to determine size
@@ -112,7 +113,8 @@ export const streamResponse = (
 		return response
 	}
 
-	if (response.status === 204) {
+	// Responses with no-body statuses must keep an empty body when wrapped.
+	if (response.status === HTTP_STATUS.NO_CONTENT) {
 		return new Response(null, {
 			status: response.status,
 			statusText: response.statusText,
@@ -129,7 +131,6 @@ export const streamResponse = (
 	})
 }
 
-// eslint-disable-next-line @typescript-eslint/no-restricted-types
 export const streamRequest = (
 	request: Request,
 	onUploadProgress: Options["onUploadProgress"],

@@ -74,3 +74,8 @@ export interface NormalizedOptions extends RequestInit {
 	onUploadProgress: Options["onUploadProgress"]
 	context: Record<string, unknown>
 }
+
+export type TimeoutOptions = {
+	timeout: number
+	fetch: typeof fetch
+}

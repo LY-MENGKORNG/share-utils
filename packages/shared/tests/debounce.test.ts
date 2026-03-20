@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, jest } from "bun:test"
+import { afterEach, beforeEach, describe, expect, it, jest } from "bun:test"
 import { debounce } from "../src/utils/debounce"
 
 const FIXED_SYSTEM_TIME = "2026-01-12T00:00:00Z"
@@ -8,6 +8,11 @@ describe("debounce", () => {
 		jest.useFakeTimers()
 		jest.setSystemTime(Date.parse(FIXED_SYSTEM_TIME))
 	})
+
+	afterEach(() => {
+		jest.useRealTimers()
+	})
+
 	it("it properly debounces function", () => {
 		const func = jest.fn()
 		const debouncedFunction = debounce(func, 100)

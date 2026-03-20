@@ -4,12 +4,17 @@
 	"private": true,
 	"license": "MIT",
 	"exports": {
+		".": "./src/index.ts",
+		"./constants": "./src/constants/index.ts",
+		"./constants/*": "./src/constants/*.ts",
 		"./types": "./src/types/index.ts",
 		"./types/*": "./src/types/*.ts",
-		"./utils": "./src/types/index.ts",
-		"./utils/*": "./src/types/*.ts",
-		"./error": "./src/error/index.ts",
-		"./error/*": "./src/error/*.ts"
+		"./utils": "./src/utils/index.ts",
+		"./utils/*": "./src/utils/*.ts",
+		"./error": "./src/errors/index.ts",
+		"./error/*": "./src/errors/*.ts",
+		"./errors": "./src/errors/index.ts",
+		"./errors/*": "./src/errors/*.ts"
 	},
 	"publishConfig": {
 		"access": "public"
