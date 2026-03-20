@@ -22,6 +22,7 @@ import type {
 	NormalizedOptions,
 	Options,
 	SearchParamsOption,
+	TimeoutOptions,
 } from "#/types/option"
 import { streamRequest, streamResponse } from "#/utils/body"
 import delay from "#/utils/delay"
@@ -30,7 +31,7 @@ import { normalizeRequestMethod, normalizeRetryOptions } from "#/utils/normalize
 import { findUnknownOptions, hasSearchParameters } from "#/utils/option"
 import { RetryMarker } from "#/utils/retry"
 import { createTextDecoder } from "#/utils/text"
-import timeout, { type TimeoutOptions } from "#/utils/timeout"
+import timeout from "#/utils/timeout"
 import { isHTTPError, isTimeoutError } from "#/utils/type-guard"
 
 export class Http {
@@ -485,7 +486,7 @@ export class Http {
 	async #readResponseText(response: Response, timeoutMs: number): Promise<string | undefined> {
 		const { body }: { body: ReadableStream<Uint8Array> | null } = response
 		if (!body) {
-			const textResult = await safeTry.async(response.text)
+			const textResult = await safeTry.async(() => response.text())
 			if (textResult.success) return textResult.value
 			return undefined
 		}
@@ -500,7 +501,7 @@ export class Http {
 
 		const readAll = (async (): Promise<string | undefined> => {
 			for (;;) {
-				const readResult = await safeTry.async(reader.read)
+				const readResult = await safeTry.async(() => reader.read())
 				if (!readResult.success || readResult.value.done) break
 
 				const { value } = readResult.value

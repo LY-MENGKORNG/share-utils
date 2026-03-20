@@ -4,6 +4,7 @@
 	"private": true,
 	"license": "MIT",
 	"exports": {
+		".": "./src/index.ts",
 		"./constants": "./src/constants/index.ts",
 		"./constants/*": "./src/constants/*.ts",
 		"./utils": "./src/utils/index.ts",

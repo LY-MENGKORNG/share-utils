@@ -4,5 +4,7 @@ import { createHttpInstance } from "./core"
 const http = createHttpInstance()
 
 export type * from "#/types"
+export type * from "./constants"
+
 export { createHttpInstance }
 export default http
