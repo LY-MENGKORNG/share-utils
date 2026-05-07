@@ -15,15 +15,15 @@ export function debounce<Args extends any[], F extends (...args: Args) => Return
 	let timerId: ReturnType<typeof setTimeout> | undefined
 	let promises: DebouncedPromise<ReturnType<F>>[] = []
 
-  const nextInvokeTimeout = (): number => {
+	const nextInvokeTimeout = (): number => {
 		if (maxWait !== undefined) {
-      const sinceLastInvoke = Date.now() - lastInvoke
+			const sinceLastInvoke = Date.now() - lastInvoke
 
-      // Note: sinceLastInvoke <= maxWait ensures we don't exceed maxWait
-      if (sinceLastInvoke + waitMs >= maxWait && sinceLastInvoke <= maxWait) {
-        return maxWait - sinceLastInvoke
+			// Note: sinceLastInvoke <= maxWait ensures we don't exceed maxWait
+			if (sinceLastInvoke + waitMs >= maxWait && sinceLastInvoke <= maxWait) {
+				return maxWait - sinceLastInvoke
 			}
-    }
+		}
 		return waitMs
 	}
 
@@ -32,7 +32,7 @@ export function debounce<Args extends any[], F extends (...args: Args) => Return
 		...args: Parameters<F>
 	) {
 		return new Promise<ReturnType<F>>((resolve, reject) => {
-      if (timerId !== undefined) clearTimeout(timerId)
+			if (timerId !== undefined) clearTimeout(timerId)
 
 			const shouldCallNow = isImmediate && timerId === undefined
 
@@ -42,14 +42,14 @@ export function debounce<Args extends any[], F extends (...args: Args) => Return
 
 				if (!isImmediate) {
 					const result = fn.apply(this, args)
-          callback(result)
+					callback(result)
 
-          for (let i = 0; i < promises.length; i++) promises[i].resolve(result)
+					for (let i = 0; i < promises.length; i++) promises[i].resolve(result)
 					promises = []
 				}
-      }, nextInvokeTimeout())
+			}, nextInvokeTimeout())
 
-      if (!shouldCallNow) return void promises.push({ resolve, reject })
+			if (!shouldCallNow) return void promises.push({ resolve, reject })
 
 			const result = fn.apply(this, args)
 			callback(result)
